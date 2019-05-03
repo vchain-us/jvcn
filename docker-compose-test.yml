@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  test:
+    image: "maven:3.6.0-jdk-8"
+    entrypoint: "mvn clean install"
+    working_dir: "/usr/src"
+    volumes:
+      - "m2:/root/.m2"
+      - "./:/usr/src"
+volumes:
+  m2:
