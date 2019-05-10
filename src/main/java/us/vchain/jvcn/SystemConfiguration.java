@@ -18,6 +18,10 @@ public class SystemConfiguration {
         return "https://api.codenotary.io/foundation";
     }
 
+    public String getArtifactUrl(final String hash, final String metaHash) {
+        return getBackend() + "/v1/artifact/" + hash + "/" + metaHash;
+    }
+
     public BigInteger getGasPrice() {
         return ZERO;
     }

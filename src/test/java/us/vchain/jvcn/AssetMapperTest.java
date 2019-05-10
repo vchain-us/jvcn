@@ -20,12 +20,12 @@ public class AssetMapperTest {
     public void from() {
         final Asset expectedAsset = new Asset();
         expectedAsset.setHash("hash");
-        expectedAsset.setOwner("owner");
+        expectedAsset.setOwner("0xDEadBeeF");
         expectedAsset.setLevel(1L);
         expectedAsset.setStatus(10L);
         expectedAsset.setTimestamp(LocalDateTime.parse("1970-01-01T00:00"));
         final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple =
-            new Tuple4<>("owner", BigInteger.ONE, BigInteger.TEN, BigInteger.ZERO);
+            new Tuple4<>("0xDEADBEEF", BigInteger.ONE, BigInteger.TEN, BigInteger.ZERO);
         final Asset asset = assetMapper.from("hash", tuple);
         assertEquals(expectedAsset, asset);
     }
