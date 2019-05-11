@@ -21,7 +21,7 @@ public class Asset {
 
     private String hash;
 
-    private String owner;
+    private String signer;
 
     private Long level;
 
@@ -56,14 +56,14 @@ public class Asset {
     private LocalDateTime createdAt;
 
     public Boolean isPresent() {
-        return !UNIT.equals(owner);
+        return !UNIT.equals(signer);
     }
 
     public String getMetaHash() {
         try {
             final String format = format(
                 "%s-%d-%d-%d",
-                owner,
+                signer,
                 level,
                 status,
                 timestamp.toEpochSecond(UTC));
@@ -84,12 +84,12 @@ public class Asset {
         this.hash = hash;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getSigner() {
+        return signer;
     }
 
-    public void setOwner(final String owner) {
-        this.owner = owner;
+    public void setSigner(final String signer) {
+        this.signer = signer;
     }
 
     public Long getLevel() {
@@ -114,14 +114,6 @@ public class Asset {
 
     public void setTimestamp(final LocalDateTime timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public static String getALGORITHM() {
-        return ALGORITHM;
-    }
-
-    public static String getUNIT() {
-        return UNIT;
     }
 
     public String getName() {
@@ -224,7 +216,7 @@ public class Asset {
     public String toString() {
         return new StringJoiner(", ", Asset.class.getSimpleName() + "[", "]")
             .add("hash='" + hash + "'")
-            .add("owner='" + owner + "'")
+            .add("signer='" + signer + "'")
             .add("level=" + level)
             .add("status=" + status)
             .add("timestamp=" + timestamp)
@@ -253,7 +245,7 @@ public class Asset {
         }
         final Asset asset = (Asset) o;
         return Objects.equals(hash, asset.hash) &&
-            Objects.equals(owner, asset.owner) &&
+            Objects.equals(signer, asset.signer) &&
             Objects.equals(level, asset.level) &&
             Objects.equals(status, asset.status) &&
             Objects.equals(timestamp, asset.timestamp) &&
@@ -273,7 +265,7 @@ public class Asset {
 
     @Override
     public int hashCode() {
-        return Objects.hash(hash, owner, level, status, timestamp, name, size,
+        return Objects.hash(hash, signer, level, status, timestamp, name, size,
             url, publisher, verificationCount, publisherCount, publisherCompany,
             publisherWebsiteUrl, kind, contentType, metadata, createdAt);
     }

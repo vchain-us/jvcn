@@ -20,7 +20,7 @@ public class AssetMapperTest {
     public void from() {
         final Asset expectedAsset = new Asset();
         expectedAsset.setHash("hash");
-        expectedAsset.setOwner("0xDEadBeeF");
+        expectedAsset.setSigner("0xDEadBeeF");
         expectedAsset.setLevel(1L);
         expectedAsset.setStatus(10L);
         expectedAsset.setTimestamp(LocalDateTime.parse("1970-01-01T00:00"));

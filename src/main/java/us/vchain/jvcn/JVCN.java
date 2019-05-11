@@ -5,18 +5,22 @@ import org.web3j.protocol.http.HttpService;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 public class JVCN {
     private final AssetsRelayFacade assetsRelayFacade;
+
+    private final DigestHelper digestHelper;
 
     private JVCN(final Configuration configuration,
                  final SystemConfiguration systemConfiguration,
                  final Web3j web3j) {
         assetsRelayFacade = new AssetsRelayFacade(
             web3j, configuration, systemConfiguration);
+        digestHelper = new DigestHelper();
     }
 
-    public Asset verify(final String hash) {
+    public Optional<Asset> verify(final String hash) {
         try {
             return assetsRelayFacade.verify(hash);
         } catch (final Exception e) {
@@ -24,9 +28,10 @@ public class JVCN {
         }
     }
 
-    public Asset verifyFile(final File file) {
+    public Optional<Asset> verifyFile(final File file) {
         try {
-            return verify(new DigestHelper().sha256Hash(file));
+            final String hash = digestHelper.sha256Hash(file);
+            return verify(hash);
         } catch (final Exception e) {
             throw new JVCNException(e);
         }
@@ -35,6 +40,34 @@ public class JVCN {
     public List<Asset> listAllAssetsMatchingHash(final String hash) {
         try {
             return assetsRelayFacade.listAllAssetsMatchingHash(hash);
+        } catch (final Exception e) {
+            throw new JVCNException(e);
+        }
+    }
+
+    public List<Asset> listAllAssetsMatchingFile(final File file) {
+        try {
+            final String hash = digestHelper.sha256Hash(file);
+            return assetsRelayFacade.listAllAssetsMatchingHash(hash);
+        } catch (final Exception e) {
+            throw new JVCNException(e);
+        }
+    }
+
+    public List<Asset> listAllAssetsMatchingHashAndSigner(final String hash,
+                                                          final String signer) {
+        try {
+            return assetsRelayFacade.listAllAssetsMatchingHashAndSigner(hash, signer);
+        } catch (final Exception e) {
+            throw new JVCNException(e);
+        }
+    }
+
+    public List<Asset> listAllAssetsMatchingFileAndSigner(final File file,
+                                                          final String signer) {
+        try {
+            final String hash = digestHelper.sha256Hash(file);
+            return assetsRelayFacade.listAllAssetsMatchingHashAndSigner(hash, signer);
         } catch (final Exception e) {
             throw new JVCNException(e);
         }

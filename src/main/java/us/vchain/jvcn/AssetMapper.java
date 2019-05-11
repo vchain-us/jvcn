@@ -15,7 +15,7 @@ class AssetMapper {
                final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple) {
         final Asset asset = new Asset();
         asset.setHash(hash);
-        asset.setOwner(toChecksumAddress(tuple.getValue1()));
+        asset.setSigner(toChecksumAddress(tuple.getValue1()));
         asset.setLevel(tuple.getValue2().longValue());
         asset.setStatus(tuple.getValue3().longValue());
         final Instant instant = ofEpochSecond(tuple.getValue4().longValue());

@@ -8,8 +8,10 @@ import org.web3j.tx.gas.StaticGasProvider;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.math.BigInteger.valueOf;
+import static java.util.stream.Collectors.toList;
 
 public class AssetsRelayFacade {
     private final AssetsRelay assetsRelay;
@@ -36,14 +38,17 @@ public class AssetsRelayFacade {
             contractGasProvider);
     }
 
-    public Asset verify(final String hash) throws Exception {
+    public Optional<Asset> verify(final String hash) throws Exception {
         final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple =
             assetsRelay.verify(hash).send();
         final Asset asset = assetMapper.from(hash, tuple);
+        if (!asset.isPresent()) {
+            return Optional.empty();
+        }
         final Metadata metadata = assetsClient.fetchMetadata(
             hash, asset.getMetaHash());
         assetMapper.enrich(asset, metadata);
-        return asset;
+        return Optional.of(asset);
     }
 
     public List<Asset> listAllAssetsMatchingHash(final String hash) throws Exception {
@@ -59,5 +64,12 @@ public class AssetsRelayFacade {
             assets.add(asset);
         }
         return assets;
+    }
+
+    public List<Asset> listAllAssetsMatchingHashAndSigner(final String hash,
+                                                          final String signer) throws Exception {
+        return listAllAssetsMatchingHash(hash).stream()
+            .filter(asset -> asset.getSigner().toLowerCase().equals(signer.toLowerCase()))
+            .collect(toList());
     }
 }
