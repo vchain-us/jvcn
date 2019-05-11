@@ -16,8 +16,8 @@ class AssetMapper {
         final Asset asset = new Asset();
         asset.setHash(hash);
         asset.setSigner(toChecksumAddress(tuple.getValue1()));
-        asset.setLevel(tuple.getValue2().longValue());
-        asset.setStatus(tuple.getValue3().longValue());
+        asset.setLevel(Level.from(tuple.getValue2().intValue()));
+        asset.setStatus(Status.from(tuple.getValue3().intValue()));
         final Instant instant = ofEpochSecond(tuple.getValue4().longValue());
         asset.setTimestamp(ofInstant(instant, UTC));
         return asset;

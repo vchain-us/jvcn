@@ -23,9 +23,9 @@ public class Asset {
 
     private String signer;
 
-    private Long level;
+    private Level level;
 
-    private Long status;
+    private Status status;
 
     private LocalDateTime timestamp;
 
@@ -64,8 +64,8 @@ public class Asset {
             final String format = format(
                 "%s-%d-%d-%d",
                 signer,
-                level,
-                status,
+                level.getValue(),
+                status.getValue(),
                 timestamp.toEpochSecond(UTC));
             final MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM);
             messageDigest.update(format.getBytes(UTF_8));
@@ -92,19 +92,19 @@ public class Asset {
         this.signer = signer;
     }
 
-    public Long getLevel() {
+    public Level getLevel() {
         return level;
     }
 
-    public void setLevel(final Long level) {
+    public void setLevel(final Level level) {
         this.level = level;
     }
 
-    public Long getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(final Long status) {
+    public void setStatus(final Status status) {
         this.status = status;
     }
 

@@ -73,14 +73,26 @@ public class JVCNIntegrationTest {
     }
 
     @Test
-    public void verify() {
+    public void verifyHash() {
         final Optional<Asset> asset = jvcn.verify(HASH);
         assertTrue(asset.isPresent());
     }
 
     @Test
+    public void verifyHashMatchingSigner() {
+        final Optional<Asset> asset = jvcn.verify(HASH, SIGNER);
+        assertTrue(asset.isPresent());
+    }
+
+    @Test
     public void verifyFile() {
-        final Optional<Asset> asset = jvcn.verifyFile(tmpFile);
+        final Optional<Asset> asset = jvcn.verify(tmpFile);
+        assertTrue(asset.isPresent());
+    }
+
+    @Test
+    public void verifyFileMatchingSigner() {
+        final Optional<Asset> asset = jvcn.verify(tmpFile, SIGNER);
         assertTrue(asset.isPresent());
     }
 

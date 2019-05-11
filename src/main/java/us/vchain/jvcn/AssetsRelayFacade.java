@@ -58,6 +58,9 @@ public class AssetsRelayFacade {
             final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple =
                 assetsRelay.verifyByIndex(hash, valueOf(i)).send();
             final Asset asset = assetMapper.from(hash, tuple);
+            if (!asset.isPresent()) {
+                continue;
+            }
             final Metadata metadata = assetsClient.fetchMetadata(
                 hash, asset.getMetaHash());
             assetMapper.enrich(asset, metadata);

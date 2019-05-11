@@ -28,10 +28,31 @@ public class JVCN {
         }
     }
 
-    public Optional<Asset> verifyFile(final File file) {
+    public Optional<Asset> verify(final String hash,
+                                  final String signer) {
+        final List<Asset> assets = listAllAssetsMatchingHashAndSigner(hash, signer);
+        return assets.isEmpty()
+            ? Optional.empty()
+            : Optional.of(assets.get(assets.size() - 1));
+    }
+
+    public Optional<Asset> verify(final File file) {
         try {
             final String hash = digestHelper.sha256Hash(file);
             return verify(hash);
+        } catch (final Exception e) {
+            throw new JVCNException(e);
+        }
+    }
+
+    public Optional<Asset> verify(final File file,
+                                  final String signer) {
+        try {
+            final String hash = digestHelper.sha256Hash(file);
+            final List<Asset> assets = listAllAssetsMatchingHashAndSigner(hash, signer);
+            return assets.isEmpty()
+                ? Optional.empty()
+                : Optional.of(assets.get(assets.size() - 1));
         } catch (final Exception e) {
             throw new JVCNException(e);
         }
