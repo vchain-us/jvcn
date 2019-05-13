@@ -9,9 +9,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.math.BigInteger.valueOf;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 public class AssetsRelayFacade {
     private final AssetsRelay assetsRelay;
@@ -70,9 +72,12 @@ public class AssetsRelayFacade {
     }
 
     public List<Asset> listAllAssetsMatchingHashAndSigner(final String hash,
-                                                          final String signer) throws Exception {
+                                                          final Set<String> signers) throws Exception {
+        final Set<String> sanitisedSigners = signers.stream()
+            .map(String::toLowerCase)
+            .collect(toSet());
         return listAllAssetsMatchingHash(hash).stream()
-            .filter(asset -> asset.getSigner().toLowerCase().equals(signer.toLowerCase()))
+            .filter(asset -> sanitisedSigners.contains(asset.getSigner().toLowerCase()))
             .collect(toList());
     }
 }

@@ -14,6 +14,7 @@ import static java.io.File.createTempFile;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static us.vchain.jvcn.Util.newSet;
 
 public class JVCNIntegrationTest {
     private static final String ASSETS_CONTRACT =
@@ -80,7 +81,7 @@ public class JVCNIntegrationTest {
 
     @Test
     public void verifyHashMatchingSigner() {
-        final Optional<Asset> asset = jvcn.verify(HASH, SIGNER);
+        final Optional<Asset> asset = jvcn.verify(HASH, newSet(SIGNER));
         assertTrue(asset.isPresent());
     }
 
@@ -92,7 +93,7 @@ public class JVCNIntegrationTest {
 
     @Test
     public void verifyFileMatchingSigner() {
-        final Optional<Asset> asset = jvcn.verify(tmpFile, SIGNER);
+        final Optional<Asset> asset = jvcn.verify(tmpFile, newSet(SIGNER));
         assertTrue(asset.isPresent());
     }
 
@@ -110,13 +111,13 @@ public class JVCNIntegrationTest {
 
     @Test
     public void listAllAssetsMatchingHashAndSigner() {
-        final List<Asset> assets = jvcn.listAllAssetsMatchingHashAndSigner(HASH, SIGNER);
+        final List<Asset> assets = jvcn.listAllAssetsMatchingHashAndSigner(HASH, newSet(SIGNER));
         assertFalse(assets.isEmpty());
     }
 
     @Test
     public void listAllAssetsMatchingFileAndSigner() {
-        final List<Asset> assets = jvcn.listAllAssetsMatchingFileAndSigner(tmpFile, SIGNER);
+        final List<Asset> assets = jvcn.listAllAssetsMatchingFileAndSigner(tmpFile, newSet(SIGNER));
         assertFalse(assets.isEmpty());
     }
 }
