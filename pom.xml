@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>us.vchain</groupId>
     <artifactId>jvcn</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>Java VCN Bindings</name>
     <description>vChain Code Notary Java Bindings</description>
     <url>https://www.codenotary.io</url>
