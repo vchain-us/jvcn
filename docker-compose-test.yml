@@ -2,7 +2,7 @@ version: '3.7'
 services:
   test:
     image: "maven:3.6.0-jdk-8"
-    entrypoint: "mvn clean install"
+    entrypoint: "mvn clean install -Dgpg.skip"
     working_dir: "/usr/src"
     volumes:
       - "m2:/root/.m2"
