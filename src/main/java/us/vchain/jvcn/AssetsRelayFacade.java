@@ -47,9 +47,8 @@ public class AssetsRelayFacade {
         if (!asset.isPresent()) {
             return Optional.empty();
         }
-        final Metadata metadata = assetsClient.fetchMetadata(
-            hash, asset.getMetaHash());
-        assetMapper.enrich(asset, metadata);
+        assetsClient.fetchMetadata(hash, asset.getMetaHash())
+            .ifPresent(metadata -> assetMapper.enrich(asset, metadata));
         return Optional.of(asset);
     }
 
@@ -63,9 +62,8 @@ public class AssetsRelayFacade {
             if (!asset.isPresent()) {
                 continue;
             }
-            final Metadata metadata = assetsClient.fetchMetadata(
-                hash, asset.getMetaHash());
-            assetMapper.enrich(asset, metadata);
+            assetsClient.fetchMetadata(hash, asset.getMetaHash())
+                .ifPresent(metadata -> assetMapper.enrich(asset, metadata));
             assets.add(asset);
         }
         return assets;
