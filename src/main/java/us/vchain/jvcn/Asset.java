@@ -1,22 +1,13 @@
 package us.vchain.jvcn;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-import static java.lang.String.format;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.time.ZoneOffset.UTC;
+import static us.vchain.jvcn.Util.UNIT_ADDRESS;
 
 public class Asset {
-    private static final String ALGORITHM = "SHA-256";
-
-    private static final String UNIT = "0x0000000000000000000000000000000000000000";
-
     // BC
 
     private String hash;
@@ -56,24 +47,7 @@ public class Asset {
     private LocalDateTime createdAt;
 
     public Boolean isPresent() {
-        return !UNIT.equals(signer);
-    }
-
-    public String getMetaHash() {
-        try {
-            final String format = format(
-                "%s-%d-%d-%d",
-                signer,
-                level.getValue(),
-                status.getValue(),
-                timestamp.toEpochSecond(UTC));
-            final MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM);
-            messageDigest.update(format.getBytes(UTF_8));
-            final byte[] digest = messageDigest.digest();
-            return format("%064x", new BigInteger(1, digest));
-        } catch (final NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+        return !UNIT_ADDRESS.equals(signer);
     }
 
     public String getHash() {

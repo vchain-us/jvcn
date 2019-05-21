@@ -7,7 +7,6 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
@@ -23,15 +22,15 @@ class AssetsClient {
 
     private final ObjectMapper objectMapper;
 
-    public AssetsClient(final SystemConfiguration systemConfiguration) {
+    AssetsClient(final SystemConfiguration systemConfiguration) {
         this.systemConfiguration = systemConfiguration;
         httpClient = new OkHttpClient.Builder().build();
         objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
     }
 
-    public Optional<Metadata> fetchMetadata(final String hash,
-                                            final String metaHash) throws IOException {
+    Optional<Metadata> fetchMetadata(final String hash,
+                                     final String metaHash) {
         try {
             final Request request = new Request.Builder()
                 .url(systemConfiguration.getArtifactUrl(hash, metaHash))

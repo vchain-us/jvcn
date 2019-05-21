@@ -14,17 +14,18 @@ import java.util.Set;
 import static java.math.BigInteger.valueOf;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
+import static us.vchain.jvcn.DigestHelper.metaHash;
 
-public class AssetsRelayFacade {
+class AssetsRelayFacade {
     private final AssetsRelay assetsRelay;
 
     private final AssetMapper assetMapper;
 
     private final AssetsClient assetsClient;
 
-    public AssetsRelayFacade(final Web3j web3j,
-                             final Configuration configuration,
-                             final SystemConfiguration systemConfiguration) {
+    AssetsRelayFacade(final Web3j web3j,
+                      final Configuration configuration,
+                      final SystemConfiguration systemConfiguration) {
         final ReadonlyTransactionManager transactionManager =
             new ReadonlyTransactionManager(web3j, configuration.getPublicKey());
         final StaticGasProvider contractGasProvider =
@@ -40,19 +41,20 @@ public class AssetsRelayFacade {
             contractGasProvider);
     }
 
-    public Optional<Asset> verify(final String hash) throws Exception {
+    Optional<Asset> verify(final String hash) throws Exception {
         final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple =
             assetsRelay.verify(hash).send();
         final Asset asset = assetMapper.from(hash, tuple);
         if (!asset.isPresent()) {
             return Optional.empty();
         }
-        assetsClient.fetchMetadata(hash, asset.getMetaHash())
+        final String metaHash = metaHash(asset);
+        assetsClient.fetchMetadata(hash, metaHash)
             .ifPresent(metadata -> assetMapper.enrich(asset, metadata));
         return Optional.of(asset);
     }
 
-    public List<Asset> listAllAssetsMatchingHash(final String hash) throws Exception {
+    List<Asset> listAllAssetsMatchingHash(final String hash) throws Exception {
         final List<Asset> assets = new ArrayList<>();
         final BigInteger count = assetsRelay.getAssetCountForHash(hash).send();
         for (long i = 0; i < count.longValue(); i++) {
@@ -62,15 +64,16 @@ public class AssetsRelayFacade {
             if (!asset.isPresent()) {
                 continue;
             }
-            assetsClient.fetchMetadata(hash, asset.getMetaHash())
+            final String metaHash = metaHash(asset);
+            assetsClient.fetchMetadata(hash, metaHash)
                 .ifPresent(metadata -> assetMapper.enrich(asset, metadata));
             assets.add(asset);
         }
         return assets;
     }
 
-    public List<Asset> listAllAssetsMatchingHashAndSigner(final String hash,
-                                                          final Set<String> signers) throws Exception {
+    List<Asset> listAllAssetsMatchingHashAndSigner(final String hash,
+                                                   final Set<String> signers) throws Exception {
         final Set<String> sanitisedSigners = signers.stream()
             .map(String::toLowerCase)
             .collect(toSet());

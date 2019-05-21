@@ -8,17 +8,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static us.vchain.jvcn.DigestHelper.sha256Hash;
+
 public class JVCN {
     private final AssetsRelayFacade assetsRelayFacade;
-
-    private final DigestHelper digestHelper;
 
     private JVCN(final Configuration configuration,
                  final SystemConfiguration systemConfiguration,
                  final Web3j web3j) {
         assetsRelayFacade = new AssetsRelayFacade(
             web3j, configuration, systemConfiguration);
-        digestHelper = new DigestHelper();
     }
 
     public Optional<Asset> verify(final String hash) {
@@ -39,7 +38,7 @@ public class JVCN {
 
     public Optional<Asset> verify(final File file) {
         try {
-            final String hash = digestHelper.sha256Hash(file);
+            final String hash = sha256Hash(file);
             return verify(hash);
         } catch (final Exception e) {
             throw new JVCNException(e);
@@ -49,7 +48,7 @@ public class JVCN {
     public Optional<Asset> verify(final File file,
                                   final Set<String> signers) {
         try {
-            final String hash = digestHelper.sha256Hash(file);
+            final String hash = sha256Hash(file);
             final List<Asset> assets = listAllAssetsMatchingHashAndSigner(hash, signers);
             return assets.isEmpty()
                 ? Optional.empty()
@@ -69,7 +68,7 @@ public class JVCN {
 
     public List<Asset> listAllAssetsMatchingFile(final File file) {
         try {
-            final String hash = digestHelper.sha256Hash(file);
+            final String hash = sha256Hash(file);
             return assetsRelayFacade.listAllAssetsMatchingHash(hash);
         } catch (final Exception e) {
             throw new JVCNException(e);
@@ -88,7 +87,7 @@ public class JVCN {
     public List<Asset> listAllAssetsMatchingFileAndSigner(final File file,
                                                           final Set<String> signers) {
         try {
-            final String hash = digestHelper.sha256Hash(file);
+            final String hash = sha256Hash(file);
             return assetsRelayFacade.listAllAssetsMatchingHashAndSigner(hash, signers);
         } catch (final Exception e) {
             throw new JVCNException(e);

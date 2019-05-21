@@ -6,6 +6,8 @@ import java.util.Set;
 import static java.util.Collections.addAll;
 
 class Util {
+    static final String UNIT_ADDRESS = "0x0000000000000000000000000000000000000000";
+
     private Util() {
 
     }

@@ -3,8 +3,10 @@ package us.vchain.jvcn;
 import java.util.Objects;
 import java.util.StringJoiner;
 
+import static us.vchain.jvcn.Util.UNIT_ADDRESS;
+
 public class Configuration {
-    private String publicKey = "0x0000000000000000000000000000000000000000";
+    private String publicKey = UNIT_ADDRESS;
 
     public String getPublicKey() {
         return publicKey;
