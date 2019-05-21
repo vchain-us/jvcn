@@ -16,14 +16,14 @@ Add the following dependency to pom.xml:
 <dependency>
     <groupId>us.vchain</groupId>
     <artifactId>jvcn</artifactId>
-    <version>0.1.0</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
 You can tie in basic file verification like this:
 ````java
 public class Main {
-    public static void main(String... args){
+    public static void main(String... args) {
         final JVCN jvcn = new JVCN.Builder().build();
         Asset asset = jvcn.verifyFile(new File("SomeFile.txt"));
         System.out.println("Asset: " + asset);
