@@ -41,7 +41,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <web3j.version>4.2.0</web3j.version>
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.10.0.pr1</jackson.version>
         <junit.version>4.12</junit.version>
         <mockito.version>2.27.0</mockito.version>
         <slf4j.version>1.7.26</slf4j.version>
