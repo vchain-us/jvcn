@@ -25,7 +25,7 @@ You can tie in basic file verification like this:
 public class Main {
     public static void main(String... args) {
         final JVCN jvcn = new JVCN.Builder().build();
-        Asset asset = jvcn.verifyFile(new File("SomeFile.txt"));
+        Optional<Asset> asset = jvcn.verify(new File("SomeFile.txt"));
         System.out.println("Asset: " + asset);
     }
 }
