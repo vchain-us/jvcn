@@ -15,10 +15,10 @@ class AssetMapper {
                final Tuple4<String, BigInteger, BigInteger, BigInteger> tuple) {
         final Asset asset = new Asset();
         asset.setHash(hash);
-        asset.setSigner(toChecksumAddress(tuple.getValue1()));
-        asset.setLevel(Level.from(tuple.getValue2().intValue()));
-        asset.setStatus(Status.from(tuple.getValue3().intValue()));
-        final Instant instant = ofEpochSecond(tuple.getValue4().longValue());
+        asset.setSigner(toChecksumAddress(tuple.component1()));
+        asset.setLevel(Level.from(tuple.component2().intValue()));
+        asset.setStatus(Status.from(tuple.component3().intValue()));
+        final Instant instant = ofEpochSecond(tuple.component4().longValue());
         asset.setTimestamp(ofInstant(instant, UTC));
         return asset;
     }
