@@ -10,6 +10,10 @@ can be dropped into any JVM software project.
 ## License
 This software is released under [GPL3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
+## Build and install
+To build and install jvcn run:
+`mvn clean install -Dgpg.skip`
+
 ## Usage
 Add the following dependency to pom.xml:
 ```xml
